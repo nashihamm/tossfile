@@ -22,7 +22,7 @@ from common import (
 )
 
 CONNECTED_TEXT = (
-    "Connected. Files from Claude will arrive in this chat.\n"
+    "Connected. Files from your AI agent will arrive in this chat.\n"
     "You can close this chat now."
 )
 
@@ -79,7 +79,7 @@ def wait(cfg, timeout):
             chat = msg.get("chat") or {}
             if code not in text:
                 if chat.get("type") == "private":
-                    _reply(token, chat["id"], "Please open the link that Claude gave you, then press Start.")
+                    _reply(token, chat["id"], "Please open the link that your AI agent gave you, then press Start.")
                 continue
             write_env_value("TG_CHAT_ID", chat["id"])
             _reply(token, chat["id"], CONNECTED_TEXT)
