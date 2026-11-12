@@ -3,7 +3,7 @@
 A Claude plugin that tosses build files from your computer to your phone. Today it delivers to Telegram; more destinations are planned. After Claude builds an APK, say "send the apk to telegram" and it arrives on your phone. No drag and drop.
 
 - Works with any file: APK, AAB, IPA, zip, PDF.
-- Files up to 2 GB. The plugin logs in as your bot over MTProto (Telethon), so the 50 MB limit of the HTTP Bot API does not apply.
+- Files up to 50 MB with only a bot token. Up to 2 GB when you add `api_id` and `api_hash`: big files go over MTProto (Telethon), which does not have the 50 MB limit of the HTTP Bot API.
 - You use your own bot and your own keys. Nothing is sent to anyone else.
 
 ## Install
@@ -28,31 +28,16 @@ claude plugin marketplace add YOUR_GITHUB_USERNAME/tossfile
 claude plugin install tossfile@nashihamm-plugins
 ```
 
-## One-time setup (about 5 minutes)
+## One-time setup (about 2 minutes)
 
-You need three values:
+Say to Claude: **"set up tossfile"**. Claude walks you through it in the chat:
 
-| Value | Where to get it |
-| :-- | :-- |
-| `TG_BOT_TOKEN` | Open @BotFather in Telegram, send `/newbot`, copy the token |
-| `TG_API_ID` | Sign in at https://my.telegram.org, open "API development tools", create an app |
-| `TG_API_HASH` | Same page as `TG_API_ID` |
+1. Make a bot with @BotFather (`/newbot`) and paste the token in the chat.
+2. Open the link Claude gives you and tap **Start**.
 
-Create the config file and paste them in:
+That's all. Files up to 50 MB work now. For bigger files (up to 2 GB), Claude asks for `api_id` and `api_hash` from https://my.telegram.org the first time a file is too big.
 
-```bash
-mkdir -p ~/.config/tossfile
-nano ~/.config/tossfile/.env
-```
-
-```
-TG_API_ID=
-TG_API_HASH=
-TG_BOT_TOKEN=
-TG_CHAT_ID=
-```
-
-Leave `TG_CHAT_ID` empty. The first time you use the plugin, Claude asks you to send one message to your bot and saves the chat ID for you. To deliver into a group, add the bot to the group and send the message there.
+Read [GUIDE.md](GUIDE.md) for every step in simple English.
 
 ## Use
 
@@ -69,22 +54,19 @@ With no path, Claude looks for the newest build in `android/app/build/outputs/` 
 ## Requirements
 
 - Python 3.8 or newer.
-- Internet access to Telegram from the machine that runs Claude. Telethon is installed automatically into a private environment in `~/.config/tossfile/venv` on first run.
+- Internet access to Telegram from the machine that runs Claude.
+- Nothing to install for files up to 50 MB. For bigger files, Telethon installs itself into a private environment in `~/.config/tossfile/venv` the first time.
 
 ## Security
 
 - Keys live in `~/.config/tossfile/.env`, outside your projects, so they cannot be committed by accident.
-- The plugin never prints your keys.
+- The plugin never prints your keys. Values you paste in the chat are saved through stdin, not the command line.
+- Connecting a chat uses a one-time code in the Start link, so a stranger writing to your bot at the same moment cannot take it.
 - A leaked bot token lets someone send messages as your bot. If that happens, send `/revoke` to @BotFather to get a new one.
 
 ## Troubleshooting
 
-| Message | Fix |
-| :-- | :-- |
-| `SETUP_NEEDED` | A value is missing in the `.env` file |
-| `AccessTokenInvalidError`, `ApiIdInvalidError` | A key was copied wrong |
-| `Could not find the input entity` | Open your bot in Telegram, press Start, then ask Claude to set up the chat again |
-| `ConnectionError` | This machine cannot reach Telegram (cloud sandbox, firewall, or blocked network) |
+Claude explains errors in plain words. See the table in [GUIDE.md](GUIDE.md#if-something-goes-wrong).
 
 ## Roadmap
 
