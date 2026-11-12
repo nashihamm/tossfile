@@ -1,27 +1,29 @@
 #!/usr/bin/env python3
-"""Create the private config file if needed and report which values are still empty.
-Never prints secret values."""
-import os
-from common import CONFIG_DIR, ENV_FILE, KEYS, TEMPLATE, read_env
+"""Create the private config file if needed and say what the next setup step is.
+Never prints secret values.
 
-CONFIG_DIR.mkdir(parents=True, exist_ok=True)
-if not ENV_FILE.exists():
-    ENV_FILE.write_text(TEMPLATE, encoding="utf-8")
-    try:
-        os.chmod(ENV_FILE, 0o600)
-    except OSError:
-        pass
-    print(f"Created config file: {ENV_FILE}")
-else:
-    print(f"Config file: {ENV_FILE}")
+STATUS lines:
+  need_token  -> ask the user for a bot token (save_config.py)
+  need_chat   -> connect a chat (get_chat_id.py prepare, then wait)
+  ready       -> files can be sent; LIMIT says how big
+"""
+from common import ENV_FILE, KEYS, ensure_config_file, has_big_file_keys, read_env
+
+created = ensure_config_file()
+print(f"{'Created config file' if created else 'Config file'}: {ENV_FILE}")
 
 cfg = read_env()
 for k in KEYS:
-    print(f"  {k}: {'set' if cfg.get(k) else 'EMPTY'}")
-missing = [k for k in KEYS if not cfg.get(k)]
-if not missing:
-    print("STATUS: ready")
-elif missing == ["TG_CHAT_ID"]:
-    print("STATUS: run get_chat_id.py next")
+    print(f"  {k}: {'set' if cfg.get(k) else 'empty'}")
+
+if has_big_file_keys(cfg):
+    print("LIMIT: 2000 MB per file")
 else:
-    print("STATUS: the user must fill in the EMPTY values (except TG_CHAT_ID)")
+    print("LIMIT: 50 MB per file (add TG_API_ID and TG_API_HASH for up to 2000 MB)")
+
+if not cfg.get("TG_BOT_TOKEN"):
+    print("STATUS: need_token")
+elif not cfg.get("TG_CHAT_ID"):
+    print("STATUS: need_chat")
+else:
+    print("STATUS: ready")
