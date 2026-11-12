@@ -1,0 +1,17 @@
+{
+  "name": "tossfile",
+  "version": "0.1.0",
+  "description": "Toss build files (APK, AAB, zip, any file up to 2 GB) from Claude to your phone. Delivers to Telegram today; more destinations planned.",
+  "author": {
+    "name": "Nashih"
+  },
+  "keywords": [
+    "file-transfer",
+    "telegram",
+    "apk",
+    "android",
+    "capacitor",
+    "build"
+  ],
+  "license": "MIT"
+}

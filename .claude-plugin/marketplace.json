@@ -1,0 +1,14 @@
+{
+  "name": "nashih-plugins",
+  "description": "Small developer plugins for Claude by Nashih",
+  "owner": {
+    "name": "Nashih"
+  },
+  "plugins": [
+    {
+      "name": "tossfile",
+      "source": "./plugins/tossfile",
+      "description": "Toss build files (APK, AAB, zip, any file up to 2 GB) from Claude to your phone. Delivers to Telegram today."
+    }
+  ]
+}
