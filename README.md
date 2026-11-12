@@ -18,14 +18,14 @@ That one-step form needs Claude Code 2.1.275 or later. On older versions, use tw
 
 ```
 /plugin marketplace add YOUR_GITHUB_USERNAME/tossfile
-/plugin install tossfile@nashih-plugins
+/plugin install tossfile@nashihamm-plugins
 ```
 
 Or from a shell:
 
 ```bash
 claude plugin marketplace add YOUR_GITHUB_USERNAME/tossfile
-claude plugin install tossfile@nashih-plugins
+claude plugin install tossfile@nashihamm-plugins
 ```
 
 ## One-time setup (about 5 minutes)

@@ -1,8 +1,8 @@
 {
-  "name": "nashih-plugins",
-  "description": "Small developer plugins for Claude by Nashih",
+  "name": "nashihamm-plugins",
+  "description": "Small developer plugins for Claude by nashihamm",
   "owner": {
-    "name": "Nashih"
+    "name": "nashihamm"
   },
   "plugins": [
     {
